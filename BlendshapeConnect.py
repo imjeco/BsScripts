@@ -51,3 +51,37 @@ for c in comboList:
             combo_cc = comboNode.outputWeight
             combo_cc.connect("{0}.{1}".format(BSnode,str(c)), force=True)
            
+#### LIGAR IN-BETWEENS
+IBList = []
+
+def filterStringIB(name):                        #function para filtrar tudo o que tem IB no nome
+   if 'IB' in name:
+      return True
+   else:
+      return False
+      
+filteredListIB=filter(filterStringIB,list_of_names)
+
+for name in filteredListIB:                            #adicionar à lista comboList
+   IBList.append(name)
+           
+for IB in IBList:  
+    y = IB.split("_")                                   
+    IBSplit = y[-2:]
+    FirstTerm = IBSplit[0]
+    IB_Value = '.'.join(IBSplit[1][i:i + 1] for i in range(0, len(IBSplit[1]), 1))                           
+    IBNode = cmds.createNode("remapValue",n=BSnode+"_"+IB)
+    cmds.setAttr(IBNode + ".value[1].value_FloatValue", 0)
+    cmds.setAttr(IBNode + ".value[3].value_FloatValue", 1)
+    cmds.setAttr(IBNode + ".value[3].value_Position", float(IB_Value))
+    cmds.setAttr(IBNode + ".value[3].value_Interp", 1)
+    ccAttrIB = cc.attr(IBSplit[0])
+    pm.connectAttr( '{0}'.format(ccAttrIB), '{0}.{1}'.format(IBNode,"inputValue"))
+    shape_idx = list_of_names.index(IB)
+    shape_attribute = list_of_attributes[shape_idx]
+    pm.connectAttr( '{0}.{1}'.format(IBNode,"outValue"), '{0}'.format(shape_attribute))
+
+        
+cmds.listAttr("BS_Cara_IB_eyeBlinkLeft_05")
+            
+       
