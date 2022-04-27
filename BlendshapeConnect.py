@@ -12,12 +12,14 @@ list_of_attributes = [l[1] for l in targetsList]     #Lista dos targets, só att
 cc = pm.PyNode('CC_BlendShapes')                     #Definir controlador
 BSnode = blendshapes[0]
 
-ToDelete=cmds.ls( "{0}*".format(str(blendshapes[0])))
+ToDelete=cmds.ls( "{0}*".format(str(blendshapes[0]))) #cmds.ls( "BS_Cara*") tudo o que tenha o nome da blendshape no nome
 AllBlendshapes = pm.ls(type="blendShape") 
 
+#####        Apagar nodes antigos        #####
 
-pm.select(ToDelete,hi=True)  
-pm.select(AllBlendshapes,deselect=True)
+
+pm.select(ToDelete,hi=True)                          #selecionar tudo o que tenha o nome da blendshape no nome
+pm.select(AllBlendshapes,deselect=True)              #descelecionar nodes de blendshapes para ficarem só os combos / in betweens antigos
 pm.delete()
 
 
@@ -109,6 +111,3 @@ for IB in IBList:
     shape_idx = list_of_names.index(IB)
     shape_attribute = list_of_attributes[shape_idx]
     pm.connectAttr( '{0}.{1}'.format(IBNode,"outValue"), '{0}'.format(shape_attribute))
-
-            
-       
