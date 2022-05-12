@@ -1,0 +1,184 @@
+############### SO PODE HAVER UM CONTROLADOR NO FICHEIRO##############
+##SELECIONAR SOURCE E CLICAR##
+
+
+import maya.cmds as cmds
+import pymel.core as pm
+
+selection = cmds.ls(sl=True)   
+selectionStr = ' '.join(selection)
+
+cmds.select( "*:CC_BlendShapes")
+cmds.setKeyframe()
+
+cmds.selectKey("{0}_{1}".format(selectionStr,"browInnerUp"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( "*:CC_BlendShapes", attribute='browInnerUp' )
+
+cmds.selectKey("{0}_{1}".format(selectionStr,"browDownLeft"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( "*:CC_BlendShapes", attribute='browDownLeft' )
+
+cmds.selectKey("{0}_{1}".format(selectionStr,"browDownRight"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( "*:CC_BlendShapes", attribute='browDownRight' )
+
+cmds.selectKey("{0}_{1}".format(selectionStr,"browOuterUpLeft"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( "*:CC_BlendShapes", attribute='browOuterUpLeft' )
+
+cmds.selectKey("{0}_{1}".format(selectionStr,"browOuterUpRight"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( "*:CC_BlendShapes", attribute='browOuterUpRight' )
+
+cmds.selectKey("{0}_{1}".format(selectionStr,"eyeBlinkLeft"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( "*:CC_BlendShapes", attribute='eyeBlinkLeft' )
+
+cmds.selectKey("{0}_{1}".format(selectionStr,"eyeBlinkRight"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( "*:CC_BlendShapes", attribute='eyeBlinkRight' )
+
+cmds.selectKey("{0}_{1}".format(selectionStr,"eyeSquintLeft"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( "*:CC_BlendShapes", attribute='eyeSquintLeft' )
+
+cmds.selectKey("{0}_{1}".format(selectionStr,"eyeSquintRight"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( "*:CC_BlendShapes", attribute='eyeSquintRight' )
+
+cmds.selectKey("{0}_{1}".format(selectionStr,"eyeWideLeft"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( "*:CC_BlendShapes", attribute='eyeWideLeft' )
+
+cmds.selectKey("{0}_{1}".format(selectionStr,"eyeWideRight"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( "*:CC_BlendShapes", attribute='eyeWideRight' )
+
+cmds.selectKey("{0}_{1}".format(selectionStr,"cheekPuff"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( "*:CC_BlendShapes", attribute='cheekPuff' )
+
+cmds.selectKey("{0}_{1}".format(selectionStr,"cheekSquintLeft"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( "*:CC_BlendShapes", attribute='cheekSquintLeft' )
+
+cmds.selectKey("{0}_{1}".format(selectionStr,"cheekSquintRight"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( "*:CC_BlendShapes", attribute='cheekSquintRight' )
+
+cmds.selectKey("{0}_{1}".format(selectionStr,"noseSneerLeft"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( "*:CC_BlendShapes", attribute='noseSneerLeft' )
+
+cmds.selectKey("{0}_{1}".format(selectionStr,"noseSneerRight"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( "*:CC_BlendShapes", attribute='noseSneerRight' )
+
+cmds.selectKey("{0}_{1}".format(selectionStr,"jawOpen"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( "*:CC_BlendShapes", attribute='jawOpen' )
+
+cmds.selectKey("{0}_{1}".format(selectionStr,"jawForward"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( "*:CC_BlendShapes", attribute='jawForward' )
+
+cmds.selectKey("{0}_{1}".format(selectionStr,"jawLeft"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( "*:CC_BlendShapes", attribute='jawLeft' )
+
+cmds.selectKey("{0}_{1}".format(selectionStr,"jawRight"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( "*:CC_BlendShapes", attribute='jawRight' )
+
+cmds.selectKey("{0}_{1}".format(selectionStr,"mouthFunnel"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( "*:CC_BlendShapes", attribute='mouthFunnel' )
+
+cmds.selectKey("{0}_{1}".format(selectionStr,"mouthPucker"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( "*:CC_BlendShapes", attribute='mouthPucker' )
+
+cmds.selectKey("{0}_{1}".format(selectionStr,"mouthLeft"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( "*:CC_BlendShapes", attribute='mouthLeft' )
+
+cmds.selectKey("{0}_{1}".format(selectionStr,"mouthRight"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( "*:CC_BlendShapes", attribute='mouthRight' )
+
+cmds.selectKey("{0}_{1}".format(selectionStr,"mouthRollUpper"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( "*:CC_BlendShapes", attribute='mouthRollUpper' )
+
+cmds.selectKey("{0}_{1}".format(selectionStr,"mouthRollLower"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( "*:CC_BlendShapes", attribute='mouthRollLower' )
+
+cmds.selectKey("{0}_{1}".format(selectionStr,"mouthShrugUpper"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( "*:CC_BlendShapes", attribute='mouthShrugUpper' )
+
+cmds.selectKey("{0}_{1}".format(selectionStr,"mouthShrugLower"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( "*:CC_BlendShapes", attribute='mouthShrugLower' )
+
+cmds.selectKey("{0}_{1}".format(selectionStr,"mouthClose"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( "*:CC_BlendShapes", attribute='mouthClose' )
+
+cmds.selectKey("{0}_{1}".format(selectionStr,"mouthSmileLeft"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( "*:CC_BlendShapes", attribute='mouthSmileLeft' )
+
+cmds.selectKey("{0}_{1}".format(selectionStr,"mouthSmileRight"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( "*:CC_BlendShapes", attribute='mouthSmileRight' )
+
+cmds.selectKey("{0}_{1}".format(selectionStr,"mouthFrownLeft"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( "*:CC_BlendShapes", attribute='mouthFrownLeft' )
+
+cmds.selectKey("{0}_{1}".format(selectionStr,"mouthFrownRight"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( "*:CC_BlendShapes", attribute='mouthFrownRight' )
+
+cmds.selectKey("{0}_{1}".format(selectionStr,"mouthDimpleLeft"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( "*:CC_BlendShapes", attribute='mouthDimpleLeft' )
+
+cmds.selectKey("{0}_{1}".format(selectionStr,"mouthDimpleRight"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( "*:CC_BlendShapes", attribute='mouthDimpleRight' )
+
+cmds.selectKey("{0}_{1}".format(selectionStr,"mouthUpperUpLeft"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( "*:CC_BlendShapes", attribute='mouthUpperUpLeft' )
+
+cmds.selectKey("{0}_{1}".format(selectionStr,"mouthUpperUpRight"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( "*:CC_BlendShapes", attribute='mouthUpperUpRight' )
+
+cmds.selectKey("{0}_{1}".format(selectionStr,"mouthLowerDownLeft"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( "*:CC_BlendShapes", attribute='mouthLowerDownLeft' )
+
+cmds.selectKey("{0}_{1}".format(selectionStr,"mouthLowerDownRight"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( "*:CC_BlendShapes", attribute='mouthLowerDownRight' )
+
+cmds.selectKey("{0}_{1}".format(selectionStr,"mouthPressLeft"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( "*:CC_BlendShapes", attribute='mouthPressLeft' )
+
+cmds.selectKey("{0}_{1}".format(selectionStr,"mouthPressRight"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( "*:CC_BlendShapes", attribute='mouthPressRight' )
+
+cmds.selectKey("{0}_{1}".format(selectionStr,"mouthStretchLeft"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( "*:CC_BlendShapes", attribute='mouthStretchLeft' )
+
+cmds.selectKey("{0}_{1}".format(selectionStr,"mouthStretchRight"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( "*:CC_BlendShapes", attribute='mouthStretchRight' )
