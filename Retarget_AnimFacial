@@ -1,0 +1,239 @@
+
+
+#####POR ORDEM: 1º SELECIONAR SOURCE 2ºSELECIONAR CC BLENDSHAPES 3º CLICAR NO BOTAO #####
+
+import maya.cmds as cmds
+import pymel.core as pm
+
+selection = cmds.ls(sl=True)   
+namespaceSplit = selection[1].split(":") 
+
+CCNamespace = namespaceSplit[0]+":"+"CC_BlendShapes"
+OlhoR_Namespace = namespaceSplit[0]+":"+"CC_r_eye_BS_to_rotation"
+OlhoL_Namespace = namespaceSplit[0]+":"+"CC_l_eye_BS_to_rotation"
+
+####Select and keyframe controllers ####
+
+
+cmds.select( CCNamespace)
+cmds.setKeyframe()
+
+cmds.select( OlhoR_Namespace)
+cmds.setKeyframe()
+
+cmds.select( OlhoL_Namespace)
+cmds.setKeyframe()
+
+
+#### Paste to eye rotation controllers ####
+
+##Right##
+
+cmds.selectKey("{0}_{1}".format(selection[0],"eyeLookUpRight"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( OlhoR_Namespace, attribute="eyeLookUpRight" )
+
+cmds.selectKey("{0}_{1}".format(selection[0],"eyeLookDownRight"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( OlhoR_Namespace, attribute="eyeLookDownRight" )
+
+cmds.selectKey("{0}_{1}".format(selection[0],"eyeLookInRight"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( OlhoR_Namespace, attribute="eyeLookInRight" )
+
+cmds.selectKey("{0}_{1}".format(selection[0],"eyeLookOutRight"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( OlhoR_Namespace, attribute="eyeLookOutRight" )
+
+##Left##
+
+cmds.selectKey("{0}_{1}".format(selection[0],"eyeLookUpLeft"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( OlhoL_Namespace, attribute="eyeLookUpLeft" )
+
+cmds.selectKey("{0}_{1}".format(selection[0],"eyeLookDownLeft"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( OlhoL_Namespace, attribute="eyeLookDownLeft" )
+
+cmds.selectKey("{0}_{1}".format(selection[0],"eyeLookInLeft"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( OlhoL_Namespace, attribute="eyeLookInLeft" )
+
+cmds.selectKey("{0}_{1}".format(selection[0],"eyeLookOutLeft"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( OlhoL_Namespace, attribute="eyeLookOutLeft" )
+
+#### Paste to Blendshape controller ####
+
+
+cmds.selectKey("{0}_{1}".format(selection[0],"browInnerUp"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( CCNamespace, attribute='browInnerUp' )
+
+cmds.selectKey("{0}_{1}".format(selection[0],"browDownLeft"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( CCNamespace, attribute='browDownLeft' )
+
+cmds.selectKey("{0}_{1}".format(selection[0],"browDownRight"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( CCNamespace, attribute='browDownRight' )
+
+cmds.selectKey("{0}_{1}".format(selection[0],"browOuterUpLeft"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( CCNamespace, attribute='browOuterUpLeft' )
+
+cmds.selectKey("{0}_{1}".format(selection[0],"browOuterUpRight"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( CCNamespace, attribute='browOuterUpRight' )
+
+cmds.selectKey("{0}_{1}".format(selection[0],"eyeBlinkLeft"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( CCNamespace, attribute='eyeBlinkLeft' )
+
+cmds.selectKey("{0}_{1}".format(selection[0],"eyeBlinkRight"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( CCNamespace, attribute='eyeBlinkRight' )
+
+cmds.selectKey("{0}_{1}".format(selection[0],"eyeSquintLeft"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( CCNamespace, attribute='eyeSquintLeft' )
+
+cmds.selectKey("{0}_{1}".format(selection[0],"eyeSquintRight"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( CCNamespace, attribute='eyeSquintRight' )
+
+cmds.selectKey("{0}_{1}".format(selection[0],"eyeWideLeft"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( CCNamespace, attribute='eyeWideLeft' )
+
+cmds.selectKey("{0}_{1}".format(selection[0],"eyeWideRight"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( CCNamespace, attribute='eyeWideRight' )
+
+cmds.selectKey("{0}_{1}".format(selection[0],"cheekPuff"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( CCNamespace, attribute='cheekPuff' )
+
+cmds.selectKey("{0}_{1}".format(selection[0],"cheekSquintLeft"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( CCNamespace, attribute='cheekSquintLeft' )
+
+cmds.selectKey("{0}_{1}".format(selection[0],"cheekSquintRight"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( CCNamespace, attribute='cheekSquintRight' )
+
+cmds.selectKey("{0}_{1}".format(selection[0],"noseSneerLeft"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( CCNamespace, attribute='noseSneerLeft' )
+
+cmds.selectKey("{0}_{1}".format(selection[0],"noseSneerRight"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( CCNamespace, attribute='noseSneerRight' )
+
+cmds.selectKey("{0}_{1}".format(selection[0],"jawOpen"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( CCNamespace, attribute='jawOpen' )
+
+cmds.selectKey("{0}_{1}".format(selection[0],"jawForward"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( CCNamespace, attribute='jawForward' )
+
+cmds.selectKey("{0}_{1}".format(selection[0],"jawLeft"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( CCNamespace, attribute='jawLeft' )
+
+cmds.selectKey("{0}_{1}".format(selection[0],"jawRight"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( CCNamespace, attribute='jawRight' )
+
+cmds.selectKey("{0}_{1}".format(selection[0],"mouthFunnel"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( CCNamespace, attribute='mouthFunnel' )
+
+cmds.selectKey("{0}_{1}".format(selection[0],"mouthPucker"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( CCNamespace, attribute='mouthPucker' )
+
+cmds.selectKey("{0}_{1}".format(selection[0],"mouthLeft"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( CCNamespace, attribute='mouthLeft' )
+
+cmds.selectKey("{0}_{1}".format(selection[0],"mouthRight"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( CCNamespace, attribute='mouthRight' )
+
+cmds.selectKey("{0}_{1}".format(selection[0],"mouthRollUpper"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( CCNamespace, attribute='mouthRollUpper' )
+
+cmds.selectKey("{0}_{1}".format(selection[0],"mouthRollLower"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( CCNamespace, attribute='mouthRollLower' )
+
+cmds.selectKey("{0}_{1}".format(selection[0],"mouthShrugUpper"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( CCNamespace, attribute='mouthShrugUpper' )
+
+cmds.selectKey("{0}_{1}".format(selection[0],"mouthShrugLower"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( CCNamespace, attribute='mouthShrugLower' )
+
+cmds.selectKey("{0}_{1}".format(selection[0],"mouthClose"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( CCNamespace, attribute='mouthClose' )
+
+cmds.selectKey("{0}_{1}".format(selection[0],"mouthSmileLeft"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( CCNamespace, attribute='mouthSmileLeft' )
+
+cmds.selectKey("{0}_{1}".format(selection[0],"mouthSmileRight"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( CCNamespace, attribute='mouthSmileRight' )
+
+cmds.selectKey("{0}_{1}".format(selection[0],"mouthFrownLeft"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( CCNamespace, attribute='mouthFrownLeft' )
+
+cmds.selectKey("{0}_{1}".format(selection[0],"mouthFrownRight"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( CCNamespace, attribute='mouthFrownRight' )
+
+cmds.selectKey("{0}_{1}".format(selection[0],"mouthDimpleLeft"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( CCNamespace, attribute='mouthDimpleLeft' )
+
+cmds.selectKey("{0}_{1}".format(selection[0],"mouthDimpleRight"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( CCNamespace, attribute='mouthDimpleRight' )
+
+cmds.selectKey("{0}_{1}".format(selection[0],"mouthUpperUpLeft"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( CCNamespace, attribute='mouthUpperUpLeft' )
+
+cmds.selectKey("{0}_{1}".format(selection[0],"mouthUpperUpRight"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( CCNamespace, attribute='mouthUpperUpRight' )
+
+cmds.selectKey("{0}_{1}".format(selection[0],"mouthLowerDownLeft"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( CCNamespace, attribute='mouthLowerDownLeft' )
+
+cmds.selectKey("{0}_{1}".format(selection[0],"mouthLowerDownRight"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( CCNamespace, attribute='mouthLowerDownRight' )
+
+cmds.selectKey("{0}_{1}".format(selection[0],"mouthPressLeft"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( CCNamespace, attribute='mouthPressLeft' )
+
+cmds.selectKey("{0}_{1}".format(selection[0],"mouthPressRight"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( CCNamespace, attribute='mouthPressRight' )
+
+cmds.selectKey("{0}_{1}".format(selection[0],"mouthStretchLeft"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( CCNamespace, attribute='mouthStretchLeft' )
+
+cmds.selectKey("{0}_{1}".format(selection[0],"mouthStretchRight"), replace=True, keyframe=True)  
+cmds.copyKey()
+cmds.pasteKey( CCNamespace, attribute='mouthStretchRight' )
