@@ -1,12 +1,12 @@
-#####POR ORDEM: 1º SELECIONAR SOURCE 2ºSELECIONAR CC BLENDSHAPES 3º CLICAR NO BOTAO #####
+###Clicar e seguir os passos na janela###
 
 import maya.cmds as cmds
 import pymel.core as pm
 
-if cmds.window(window, exists=True):
+if cmds.window(window, exists=True):   #se a janela "window" já existir, apagar
     cmds.deleteUI(window)
     
-window = cmds.window("Face Anim Retarget", t="Face Anim Retarget", w=300, h=300)
+window = cmds.window("Face Anim Retarget", t="Face Anim Retarget", w=300, h=300) #criar janela chamada window, definir tamanhos e texto e isso 
 cmds.columnLayout(adj=True)
 cmds.separator(h=10)
 cmds.text("1º FRAMES DAS PALMAS")
@@ -14,20 +14,24 @@ cmds.text("2º SELECIONAR SOURCE")
 cmds.text("3ºSELECIONAR CC BLENDSHAPES")
 cmds.text("4º CLICAR NO BOTAO")
 cmds.separator(h=10)
+cmds.text("O script faz a diferença entre os frames das palmas")
+cmds.text("e usa isso como offset quando faz paste para o CC.")
+cmds.separator(h=10)
 cmds.text( label='   Frame Palma BODY   ' )
-palmaBody = cmds.textField()
+palmaBody = cmds.textField()                            #texto editavel
 cmds.text( label='   Frame Palma FACE   ' )
 palmaFace = cmds.textField()
 cmds.separator(h=10)
 
-cmds.button(label="Botao Magico", command="animRetarget()")
+cmds.button(label="Botao Magico", command="animRetarget()")  #botao que corre o comando "animRetarget", definido abaixo
 
 cmds.showWindow( window )
 
 def animRetarget():
-    bodyframe=cmds.textField(palmaBody, query=True, text=True)
+    bodyframe=cmds.textField(palmaBody, query=True, text=True)        #ir buscar o texto dos textfields acima
     faceframe=cmds.textField(palmaFace, query=True, text=True)
-    offset=int(bodyframe)-int(faceframe)
+    offset=int(bodyframe)-int(faceframe)                            #converter strings de texto em integers e subtrair
+    
     selection = cmds.ls(sl=True)   
     namespaceSplit = selection[1].split(":") 
     
