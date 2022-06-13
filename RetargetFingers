@@ -1,0 +1,311 @@
+rimport maya.cmds as cmds
+import pymel.core as pm
+
+if cmds.window(window, exists=True):   #se a janela "window" já existir, apagar
+    cmds.deleteUI(window)
+    
+window = cmds.window("Retarget Dedos", t="Retargets Dedos", w=300, h=100) #criar janela chamada window, definir tamanhos e texto e isso 
+cmds.columnLayout(adj=True)
+cmds.separator(h=10)
+cmds.text("1º Selecionar Qualquer Controlador do Target")
+cmds.text("2º SELECIONAR ROOT DA SOURCE")
+cmds.text("3º CLICAR NO BOTAO")
+cmds.separator(h=10)
+
+cmds.button(label="Constraints", command="CreateConstraints()")  #botao que corre o comando "CreateConstraints", definido abaixo
+cmds.button(label="Bake", command="BakeConstraints()")  #botao que corre o comando "BakeConstraints", definido abaixo
+
+cmds.showWindow( window )
+
+def CreateConstraints():
+
+    
+    
+    selection = cmds.ls(sl=True)   #selecionar 1º controlador do target e 2º root da source
+    
+    namespaceSplitTarget = selection[0].split(":") 
+    constraintList=[]
+    
+    
+    sourcebones = ['J_Bip_L_Hand',
+ 'J_Bip_L_Index1',
+ 'J_Bip_L_Index2',
+ 'J_Bip_L_Index3',
+ 'J_Bip_L_Index3_end',
+ 'J_Bip_L_Little1',
+ 'J_Bip_L_Little2',
+ 'J_Bip_L_Little3',
+ 'J_Bip_L_Little3_end',
+ 'J_Bip_L_Middle1',
+ 'J_Bip_L_Middle2',
+ 'J_Bip_L_Middle3',
+ 'J_Bip_L_Middle3_end',
+ 'J_Bip_L_Ring1',
+ 'J_Bip_L_Ring2',
+ 'J_Bip_L_Ring3',
+ 'J_Bip_L_Ring3_end',
+ 'J_Bip_L_Thumb1',
+ 'J_Bip_L_Thumb2',
+ 'J_Bip_L_Thumb3',
+ 'J_Bip_L_Thumb3_end',
+ 'J_Bip_R_Hand',
+ 'J_Bip_R_Index1',
+ 'J_Bip_R_Index2',
+ 'J_Bip_R_Index3',
+ 'J_Bip_R_Index3_end',
+ 'J_Bip_R_Little1',
+ 'J_Bip_R_Little2',
+ 'J_Bip_R_Little3',
+ 'J_Bip_R_Little3_end',
+ 'J_Bip_R_Middle1',
+ 'J_Bip_R_Middle2',
+ 'J_Bip_R_Middle3',
+ 'J_Bip_R_Middle3_end',
+ 'J_Bip_R_Ring1',
+ 'J_Bip_R_Ring2',
+ 'J_Bip_R_Ring3',
+ 'J_Bip_R_Ring3_end',
+ 'J_Bip_R_Thumb1',
+ 'J_Bip_R_Thumb2',
+ 'J_Bip_R_Thumb3',
+ 'J_Bip_R_Thumb3_end']
+ 
+    targetbones = ['FKWrist_R','FKWrist_L','FKThumbFinger1_R',
+ 'FKThumbFinger2_R',
+ 'FKThumbFinger3_R',
+ 'FKIndexFinger1_R',
+ 'FKIndexFinger2_R',
+ 'FKIndexFinger3_R',
+ 'FKMiddleFinger1_R',
+ 'FKMiddleFinger2_R',
+ 'FKMiddleFinger3_R',
+ 'FKRingFinger1_R',
+ 'FKRingFinger2_R',
+ 'FKRingFinger3_R',
+ 'FKRingFinger1_L',
+ 'FKRingFinger2_L',
+ 'FKRingFinger3_L',
+ 'FKMiddleFinger3_L',
+ 'FKMiddleFinger2_L',
+ 'FKMiddleFinger1_L',
+ 'FKIndexFinger3_L',
+ 'FKIndexFinger2_L',
+ 'FKIndexFinger1_L',
+ 'FKThumbFinger3_L',
+ 'FKThumbFinger2_L',
+ 'FKThumbFinger1_L']
+ 
+    cmds.currentTime(0)
+    cmds.select(selection[1])
+    cmds.select(hi=True,replace=True)
+    AllSourceBones=cmds.ls(sl=True)
+       
+    #Zero out rotations at frame 0
+         
+    for bone in AllSourceBones:
+        cmds.setAttr(bone + ".rotateX", 0)
+        cmds.setAttr(bone + ".rotateY", 0)
+        cmds.setAttr(bone + ".rotateZ", 0)
+        cmds.select(bone,replace=True)
+        cmds.setKeyframe()
+    
+    for bone in targetbones:
+        targetNamespace=namespaceSplitTarget[0]+":"+bone
+        cmds.setAttr(targetNamespace + ".rotateX", 0)
+        cmds.setAttr(targetNamespace + ".rotateY", 0)
+        cmds.setAttr(targetNamespace + ".rotateZ", 0)
+        cmds.select(targetNamespace, replace=True)
+        cmds.setKeyframe()
+        
+    #Delete Anim on Source Body
+         
+    for bone in sourcebones:
+        AllSourceBones.remove(bone)
+        
+    cmds.select(AllSourceBones, replace=True)
+    cmds.cutKey()   
+         
+    #Orient Constraints
+    
+    
+    #Left Hand
+    cmds.orientConstraint("J_Bip_L_Hand",namespaceSplitTarget[0]+":FKWrist_L", maintainOffset=True) #Orient Constraint
+    
+    orient=cmds.orientConstraint(namespaceSplitTarget[0]+":FKRingFinger1_L", query=True) #query Orient Constraint ligado ao controlador
+    constraintList.append(orient)                            #orient constraint para uma lista
+    
+    cmds.orientConstraint("J_Bip_L_Little1",namespaceSplitTarget[0]+":FKRingFinger1_L", maintainOffset=True) #Orient Constraint
+    
+    orient=cmds.orientConstraint(namespaceSplitTarget[0]+":FKRingFinger1_L", query=True) #query Orient Constraint ligado ao controlador
+    constraintList.append(orient)                            #orient constraint para uma lista
+    
+    cmds.orientConstraint("J_Bip_L_Little2",namespaceSplitTarget[0]+":FKRingFinger2_L", maintainOffset=True) #Orient Constraint
+    
+    orient=cmds.orientConstraint(namespaceSplitTarget[0]+":FKRingFinger2_L", query=True) 
+    constraintList.append(orient)  
+    
+    cmds.orientConstraint("J_Bip_L_Little3",namespaceSplitTarget[0]+":FKRingFinger3_L", maintainOffset=True) #Orient Constraint
+    
+    orient=cmds.orientConstraint(namespaceSplitTarget[0]+":FKRingFinger3_L", query=True) 
+    constraintList.append(orient)  
+    
+    cmds.orientConstraint("J_Bip_L_Middle1",namespaceSplitTarget[0]+":FKMiddleFinger1_L", maintainOffset=True) #Orient Constraint
+    
+    orient=cmds.orientConstraint(namespaceSplitTarget[0]+":FKMiddleFinger1_L", query=True) #query Orient Constraint ligado ao controlador
+    constraintList.append(orient)                            #orient constraint para uma lista
+    
+    cmds.orientConstraint("J_Bip_L_Middle2",namespaceSplitTarget[0]+":FKMiddleFinger2_L", maintainOffset=True) #Orient Constraint
+    
+    orient=cmds.orientConstraint(namespaceSplitTarget[0]+":FKMiddleFinger2_L", query=True) 
+    constraintList.append(orient)  
+    
+    cmds.orientConstraint("J_Bip_L_Middle3",namespaceSplitTarget[0]+":FKMiddleFinger3_L", maintainOffset=True) #Orient Constraint
+    
+    orient=cmds.orientConstraint(namespaceSplitTarget[0]+":FKMiddleFinger3_L", query=True) 
+    constraintList.append(orient)  
+    
+    cmds.orientConstraint("J_Bip_L_Index1",namespaceSplitTarget[0]+":FKIndexFinger1_L", maintainOffset=True) #Orient Constraint
+    
+    orient=cmds.orientConstraint(namespaceSplitTarget[0]+":FKIndexFinger1_L", query=True) #query Orient Constraint ligado ao controlador
+    constraintList.append(orient)                            #orient constraint para uma lista
+    
+    cmds.orientConstraint("J_Bip_L_Index2",namespaceSplitTarget[0]+":FKIndexFinger2_L", maintainOffset=True) #Orient Constraint
+    
+    orient=cmds.orientConstraint(namespaceSplitTarget[0]+":FKIndexFinger2_L", query=True) 
+    constraintList.append(orient)  
+    
+    cmds.orientConstraint("J_Bip_L_Index3",namespaceSplitTarget[0]+":FKIndexFinger3_L", maintainOffset=True) #Orient Constraint
+    
+    orient=cmds.orientConstraint(namespaceSplitTarget[0]+":FKIndexFinger3_L", query=True) 
+    constraintList.append(orient)  
+    
+    cmds.orientConstraint("J_Bip_L_Thumb1",namespaceSplitTarget[0]+":FKThumbFinger1_L", maintainOffset=True) #Orient Constraint
+    
+    orient=cmds.orientConstraint(namespaceSplitTarget[0]+":FKThumbFinger1_L", query=True) #query Orient Constraint ligado ao controlador
+    constraintList.append(orient)                            #orient constraint para uma lista
+    
+    cmds.orientConstraint("J_Bip_L_Thumb2",namespaceSplitTarget[0]+":FKThumbFinger2_L", maintainOffset=True) #Orient Constraint
+    
+    orient=cmds.orientConstraint(namespaceSplitTarget[0]+":FKThumbFinger2_L", query=True) 
+    constraintList.append(orient)  
+    
+    cmds.orientConstraint("J_Bip_L_Thumb3",namespaceSplitTarget[0]+":FKThumbFinger3_L", maintainOffset=True) #Orient Constraint
+    
+    orient=cmds.orientConstraint(namespaceSplitTarget[0]+":FKThumbFinger3_L", query=True) 
+    constraintList.append(orient)  
+    
+    #Right Hand
+    
+    cmds.orientConstraint("J_Bip_R_Hand",namespaceSplitTarget[0]+":FKWrist_R", maintainOffset=True) #Orient Constraint
+    
+    orient=cmds.orientConstraint(namespaceSplitTarget[0]+":FKRingFinger1_L", query=True) #query Orient Constraint ligado ao controlador
+    constraintList.append(orient)                            #orient constraint para uma lista
+    
+    cmds.orientConstraint("J_Bip_R_Little1",namespaceSplitTarget[0]+":FKRingFinger1_R", maintainOffset=True) #Orient Constraint
+    
+    orient=cmds.orientConstraint(namespaceSplitTarget[0]+":FKRingFinger1_R", query=True) #query Orient Constraint ligado ao controlador
+    constraintList.append(orient)                            #orient constraint para uma lista
+    
+    cmds.orientConstraint("J_Bip_R_Little2",namespaceSplitTarget[0]+":FKRingFinger2_R", maintainOffset=True) #Orient Constraint
+    
+    orient=cmds.orientConstraint(namespaceSplitTarget[0]+":FKRingFinger2_R", query=True) 
+    constraintList.append(orient)  
+    
+    cmds.orientConstraint("J_Bip_R_Little3",namespaceSplitTarget[0]+":FKRingFinger3_R", maintainOffset=True) #Orient Constraint
+    
+    orient=cmds.orientConstraint(namespaceSplitTarget[0]+":FKRingFinger3_R", query=True) 
+    constraintList.append(orient)  
+    
+    cmds.orientConstraint("J_Bip_R_Middle1",namespaceSplitTarget[0]+":FKMiddleFinger1_R", maintainOffset=True) #Orient Constraint
+    
+    orient=cmds.orientConstraint(namespaceSplitTarget[0]+":FKMiddleFinger1_R", query=True) #query Orient Constraint ligado ao controlador
+    constraintList.append(orient)                            #orient constraint para uma lista
+    
+    cmds.orientConstraint("J_Bip_R_Middle2",namespaceSplitTarget[0]+":FKMiddleFinger2_R", maintainOffset=True) #Orient Constraint
+    
+    orient=cmds.orientConstraint(namespaceSplitTarget[0]+":FKMiddleFinger2_R", query=True) 
+    constraintList.append(orient)  
+    
+    cmds.orientConstraint("J_Bip_R_Middle3",namespaceSplitTarget[0]+":FKMiddleFinger3_R", maintainOffset=True) #Orient Constraint
+    
+    orient=cmds.orientConstraint(namespaceSplitTarget[0]+":FKMiddleFinger3_R", query=True) 
+    constraintList.append(orient)  
+    
+    cmds.orientConstraint("J_Bip_R_Index1",namespaceSplitTarget[0]+":FKIndexFinger1_R", maintainOffset=True) #Orient Constraint
+    
+    orient=cmds.orientConstraint(namespaceSplitTarget[0]+":FKIndexFinger1_R", query=True) #query Orient Constraint ligado ao controlador
+    constraintList.append(orient)                            #orient constraint para uma lista
+    
+    cmds.orientConstraint("J_Bip_R_Index2",namespaceSplitTarget[0]+":FKIndexFinger2_R", maintainOffset=True) #Orient Constraint
+    
+    orient=cmds.orientConstraint(namespaceSplitTarget[0]+":FKIndexFinger2_R", query=True) 
+    constraintList.append(orient)  
+    
+    cmds.orientConstraint("J_Bip_R_Index3",namespaceSplitTarget[0]+":FKIndexFinger3_R", maintainOffset=True) #Orient Constraint
+    
+    orient=cmds.orientConstraint(namespaceSplitTarget[0]+":FKIndexFinger3_R", query=True) 
+    constraintList.append(orient)  
+    
+    cmds.orientConstraint("J_Bip_R_Thumb1",namespaceSplitTarget[0]+":FKThumbFinger1_R", maintainOffset=True) #Orient Constraint
+    
+    orient=cmds.orientConstraint(namespaceSplitTarget[0]+":FKThumbFinger1_R", query=True) #query Orient Constraint ligado ao controlador
+    constraintList.append(orient)                            #orient constraint para uma lista
+    
+    cmds.orientConstraint("J_Bip_R_Thumb2",namespaceSplitTarget[0]+":FKThumbFinger2_R", maintainOffset=True) #Orient Constraint
+    
+    orient=cmds.orientConstraint(namespaceSplitTarget[0]+":FKThumbFinger2_R", query=True) 
+    constraintList.append(orient)  
+    
+    cmds.orientConstraint("J_Bip_R_Thumb3",namespaceSplitTarget[0]+":FKThumbFinger3_R", maintainOffset=True) #Orient Constraint
+    
+    orient=cmds.orientConstraint(namespaceSplitTarget[0]+":FKThumbFinger3_R", query=True) 
+    constraintList.append(orient)  
+    
+#Bake
+    
+
+
+def BakeConstraints():
+    
+    TimeRangeMin = maya.mel.eval('float $minTime = `playbackOptions -q -minTime`;')
+    TimeRangeMax = maya.mel.eval('float $minTime = `playbackOptions -q -maxTime`;')
+
+    #Left hand  
+                            
+    cmds.bakeResults(namespaceSplitTarget[0]+":FKRingFinger1_L", at=["rx","ry","rz"], time=(int(TimeRangeMin),int(TimeRangeMax)))
+    cmds.bakeResults(namespaceSplitTarget[0]+":FKRingFinger2_L", at=["rx","ry","rz"], time=(int(TimeRangeMin),int(TimeRangeMax))) 
+    cmds.bakeResults(namespaceSplitTarget[0]+":FKRingFinger3_L", at=["rx","ry","rz"], time=(int(TimeRangeMin),int(TimeRangeMax))) 
+    cmds.bakeResults(namespaceSplitTarget[0]+":FKMiddleFinger1_L", at=["rx","ry","rz"], time=(int(TimeRangeMin),int(TimeRangeMax))) 
+    cmds.bakeResults(namespaceSplitTarget[0]+":FKMiddleFinger2_L", at=["rx","ry","rz"], time=(int(TimeRangeMin),int(TimeRangeMax))) 
+    cmds.bakeResults(namespaceSplitTarget[0]+":FKMiddleFinger3_L", at=["rx","ry","rz"], time=(int(TimeRangeMin),int(TimeRangeMax))) 
+    cmds.bakeResults(namespaceSplitTarget[0]+":FKIndexFinger1_L", at=["rx","ry","rz"], time=(int(TimeRangeMin),int(TimeRangeMax))) 
+    cmds.bakeResults(namespaceSplitTarget[0]+":FKIndexFinger2_L", at=["rx","ry","rz"], time=(int(TimeRangeMin),int(TimeRangeMax))) 
+    cmds.bakeResults(namespaceSplitTarget[0]+":FKIndexFinger3_L", at=["rx","ry","rz"], time=(int(TimeRangeMin),int(TimeRangeMax))) 
+    cmds.bakeResults(namespaceSplitTarget[0]+":FKThumbFinger1_L", at=["rx","ry","rz"], time=(int(TimeRangeMin),int(TimeRangeMax))) 
+    cmds.bakeResults(namespaceSplitTarget[0]+":FKThumbFinger2_L", at=["rx","ry","rz"], time=(int(TimeRangeMin),int(TimeRangeMax))) 
+    cmds.bakeResults(namespaceSplitTarget[0]+":FKThumbFinger3_L", at=["rx","ry","rz"], time=(int(TimeRangeMin),int(TimeRangeMax))) 
+    cmds.bakeResults(namespaceSplitTarget[0]+":FKWrist_L", at=["rx","ry","rz"], time=(int(TimeRangeMin),int(TimeRangeMax))) 
+    
+    #Right Hand
+    
+    cmds.bakeResults(namespaceSplitTarget[0]+":FKRingFinger1_R", at=["rx","ry","rz"], time=(int(TimeRangeMin),int(TimeRangeMax)))
+    cmds.bakeResults(namespaceSplitTarget[0]+":FKRingFinger2_R", at=["rx","ry","rz"], time=(int(TimeRangeMin),int(TimeRangeMax))) 
+    cmds.bakeResults(namespaceSplitTarget[0]+":FKRingFinger3_R", at=["rx","ry","rz"], time=(int(TimeRangeMin),int(TimeRangeMax))) 
+    cmds.bakeResults(namespaceSplitTarget[0]+":FKMiddleFinger1_R", at=["rx","ry","rz"], time=(int(TimeRangeMin),int(TimeRangeMax))) 
+    cmds.bakeResults(namespaceSplitTarget[0]+":FKMiddleFinger2_R", at=["rx","ry","rz"], time=(int(TimeRangeMin),int(TimeRangeMax))) 
+    cmds.bakeResults(namespaceSplitTarget[0]+":FKMiddleFinger3_R", at=["rx","ry","rz"], time=(int(TimeRangeMin),int(TimeRangeMax))) 
+    cmds.bakeResults(namespaceSplitTarget[0]+":FKIndexFinger1_R", at=["rx","ry","rz"], time=(int(TimeRangeMin),int(TimeRangeMax))) 
+    cmds.bakeResults(namespaceSplitTarget[0]+":FKIndexFinger2_R", at=["rx","ry","rz"], time=(int(TimeRangeMin),int(TimeRangeMax))) 
+    cmds.bakeResults(namespaceSplitTarget[0]+":FKIndexFinger3_R", at=["rx","ry","rz"], time=(int(TimeRangeMin),int(TimeRangeMax))) 
+    cmds.bakeResults(namespaceSplitTarget[0]+":FKThumbFinger1_R", at=["rx","ry","rz"], time=(int(TimeRangeMin),int(TimeRangeMax))) 
+    cmds.bakeResults(namespaceSplitTarget[0]+":FKThumbFinger2_R", at=["rx","ry","rz"], time=(int(TimeRangeMin),int(TimeRangeMax))) 
+    cmds.bakeResults(namespaceSplitTarget[0]+":FKThumbFinger3_R", at=["rx","ry","rz"], time=(int(TimeRangeMin),int(TimeRangeMax))) 
+    cmds.bakeResults(namespaceSplitTarget[0]+":FKWrist_R", at=["rx","ry","rz"], time=(int(TimeRangeMin),int(TimeRangeMax))) 
+    
+    
+    
+    #delete constraints
+    
+    cmds.select(constraintList)
+    cmds.Delete()               
+
