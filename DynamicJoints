@@ -1,0 +1,50 @@
+#####Selecionar Joint antes da que vai ser dynamic#####
+
+import maya.cmds as cmds
+import pymel.core as pm
+
+selectionAll=cmds.ls(sl=True)
+
+for jointchain in selectionAll:
+    cmds.select(jointchain)
+
+    cmds.select(hi=True) #selecionar joint placeholder
+    selection = cmds.ls(sl=True)  #hierarquia para uma lista
+    
+    
+    
+    cmds.select(selection[1], replace=True) #selecionar 2º item da lista, 1º bone dynamic
+    cmds.select(selection[len(selection)-1], add=True) #select last from list
+    
+    cmds.ikHandle(sol="ikSplineSolver", simplifyCurve=False,createCurve=True,)#criar handle e curva
+    cmds.delete() #apagar handle
+    
+    relatives=cmds.listRelatives(selection[0],type="transform")
+    
+    cmds.select(relatives[1])
+    cmds.rename(relatives[1],"OG_Curve")
+    OG_Curve=cmds.ls(sl=True)
+    pm.mel.eval('MakeCurvesDynamic')
+    
+    hairSystem=cmds.listRelatives(parent=True)
+    
+    hairGrp=str(hairSystem[0])+"OutputCurves"
+    newCurve=cmds.listRelatives(hairGrp,children=True)
+    
+    
+    relatives=cmds.listRelatives(selection[0],type="transform")
+    
+    
+    cmds.select(selection[1], replace=True) #selecionar 2º item da lista, 1º bone dynamic
+    cmds.select(selection[len(selection)-1], add=True) #select last from list
+    cmds.ikHandle(sol="ikSplineSolver", simplifyCurve=False,curve=newCurve[0],rootOnCurve=False,parentCurve=False,createRootAxis=False,createCurve=False)#criar handle
+    
+    cmds.select(newCurve[0])
+    cmds.rename("Dynamic_Curve")
+    
+    
+    cmds.setAttr(relatives[1] + ".pointLock", 1) #Point Lock Base na follicle
+
+
+
+
